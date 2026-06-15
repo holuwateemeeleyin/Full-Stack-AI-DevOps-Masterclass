@@ -1,0 +1,37 @@
+# Docker Compose for Node.js Tax Calculator Application
+services:
+  # service-a:
+  #   build: ./node/service-a
+  #   ports:
+  #     - "3100:3000"
+  #   depends_on:
+  #     - service-b
+  #   environment:
+  #     - TAX_SERVICE_URL=http://service-b:4000
+  # service-b:
+  #   build: ./node/service-b
+  #   ports:
+  #     - "3200:4000"
+  
+  # Docker Compose for Python Tax Calculator Application
+  service-a:
+    build: ./python/service-a
+    ports:
+      - "3100:3000"
+    depends_on:
+      - service-b
+    environment:
+      - TAX_SERVICE_URL=http://service-b:4000
+      - Frontend_URL=http://frontend:80
+  service-b:
+    build: ./python/service-b
+    ports:
+      - "3200:4000"
+  
+  # Frontend for Tax Calculator Application
+  frontend:
+    build: ./tax-calculator-frontend
+    ports:
+    - "5173:80"
+    depends_on:
+      - service-a
